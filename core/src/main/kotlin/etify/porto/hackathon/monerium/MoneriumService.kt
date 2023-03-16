@@ -33,20 +33,27 @@ class MoneriumServiceImpl(
             address = Web3.getAddress(privateKey),
             signature = Web3.signMessage(privateKey, CREATE_ACCOUNT_MESSAGE)
         )
-        val response = client.addAccountAddress(header, profileId, body)
+
+        client.addAccountAddress(header, profileId, body)
+
+        val account = client.getAccounts(header, profileId)
+            .filter { it.address == Web3.getAddress(privateKey) }
+            .filter { it.currency == "eur" }
+            .filter { it.chain == "polygon" }
+            .filter { it.network == "mumbai" }
+            .firstOrNull() ?: throw IllegalStateException("No account found.")
 
         val patch2 = client.patchAccountData(
-            authorizationHeader = authorization,
-            accountId = response.id,
+            authorizationHeader = header,
+            accountId = account.id,
             body = PatchAccountData("3cd75adc-c1dd-11ed-a042-2a5f7fc2c676")
         )
 
         val patch3 = client.patchTreasuryData(
-            authorizationHeader = authorization,
-            treasureId = patch2.id,
+            authorizationHeader = header,
+            treasureId = "3cd75adc-c1dd-11ed-a042-2a5f7fc2c676",
             body = PatchTreasuryData(patch2.id)
         )
-//        val patch3 = client.patchTreasuryData()
     }
 
 
