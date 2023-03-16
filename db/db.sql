@@ -7,13 +7,15 @@ CREATE SCHEMA porto;
 
 CREATE TABLE porto.accounts
 (
-    id       UUID PRIMARY KEY,
-    email    VARCHAR,
-    password VARCHAR,
-    name     VARCHAR,
-    surname  VARCHAR,
-    birthday TIMESTAMPTZ,
-    iban     VARCHAR
+    id             UUID PRIMARY KEY,
+    email          VARCHAR,
+    password       VARCHAR,
+    name           VARCHAR,
+    surname        VARCHAR,
+    birthday       TIMESTAMPTZ,
+    iban           VARCHAR,
+    public_key     VARCHAR,
+    wallet_address VARCHAR
 );
 
 CREATE TABLE porto.projects

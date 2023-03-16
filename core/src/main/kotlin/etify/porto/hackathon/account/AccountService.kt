@@ -23,13 +23,14 @@ class AccountServiceImpl(
 
     override fun createAccount(command: CreateAccountCommand): Account {
         val assetAccount = dfnsService.createAssetAccount()
+
         val signedMessage = dfnsService.sign(
-            publicKeyId = assetAccount.publicKey ?: throw IllegalStateException("Public key is missing."),
+            publicKeyId = assetAccount.publicKey ?: throw IllegalStateException("Public key has not been created."),
             messageBytes = MESSAGE
         )
 
         val moneriumAccount = moneriumService.createAccount(
-            accountAddress = assetAccount.address ?: throw IllegalStateException("Address is missing."),
+            accountAddress = assetAccount.address ?: throw IllegalStateException("Address has not been created."),
             signedBytes = signedMessage
         )
 
@@ -40,7 +41,9 @@ class AccountServiceImpl(
             surname = command.surname,
             password = passwordEncoder.encode(command.password),
             birthday = command.birthday,
-            iban = moneriumAccount.iban
+            iban = moneriumAccount.iban,
+            publicKey = assetAccount.publicKey ?: throw IllegalStateException("Public key has not been created."),
+            walletAddress = assetAccount.address ?: throw IllegalStateException("Address has not been created.")
         )
 
         accountRepository.save(account)

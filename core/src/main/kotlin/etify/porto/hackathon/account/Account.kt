@@ -4,7 +4,6 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import org.hibernate.id.factory.internal.SequenceGenerationTypeStrategy
 import java.time.OffsetDateTime
 import java.util.UUID
 
@@ -31,5 +30,11 @@ class Account(
     val birthday: OffsetDateTime,
 
     @Column(name = "iban")
-    val iban: String
+    val iban: String,
+
+    @Column(name = "public_key")
+    val publicKey: String,
+
+    @Column(name = "wallet_address")
+    val walletAddress: String
 )
