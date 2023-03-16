@@ -28,11 +28,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.web3j:core:4.9.4'
+    implementation 'io.github.openfeign:feign-okhttp:12.2'
 //    runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }
+// https://mvnrepository.com/artifact/io.github.openfeign/feign-okhttp
+
 
 dependencyManagement {
     imports {
