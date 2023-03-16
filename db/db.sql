@@ -15,6 +15,18 @@ CREATE TABLE porto.accounts
 
 );
 
+CREATE TABLE porto.projects
+(
+    id          UUID PRIMARY KEY,
+    name        VARCHAR,
+    status VARCHAR,
+    website_url     VARCHAR,
+    twitter_url       VARCHAR,
+    telegram_url       VARCHAR,
+    medium_url       VARCHAR,
+    token_contract_address    VARCHAR
+);
+
 -- Privileges
 GRANT ALL PRIVILEGES ON SCHEMA porto TO spring;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA porto TO spring;
