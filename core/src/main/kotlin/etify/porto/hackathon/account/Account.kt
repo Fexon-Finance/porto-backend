@@ -4,8 +4,9 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import org.hibernate.id.factory.internal.SequenceGenerationTypeStrategy
+import java.time.OffsetDateTime
 import java.util.UUID
-
 
 @Entity
 @Table(name = "accounts", schema = "porto")
@@ -26,6 +27,9 @@ class Account(
     @Column(name = "surname")
     val surname: String,
 
-    @Column(name = "private_key")
-    val privateKey: String
+    @Column(name = "birthday")
+    val birthday: OffsetDateTime,
+
+    @Column(name = "iban")
+    val iban: String
 )

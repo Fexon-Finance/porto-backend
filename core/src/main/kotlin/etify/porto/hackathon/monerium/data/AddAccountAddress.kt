@@ -9,8 +9,8 @@ data class AddAccountAddressData(
 
 data class AccountData(
     val currency: String = "eur",
-    val chain: String = "polygon",
-    val network: String = "mumbai",
+    val chain: String = "ethereum",
+    val network: String = "goerli",
     val isVisible: Boolean = true
 )
 

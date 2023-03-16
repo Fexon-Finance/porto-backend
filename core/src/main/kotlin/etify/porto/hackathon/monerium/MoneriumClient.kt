@@ -1,24 +1,14 @@
 package etify.porto.hackathon.monerium
 
-import etify.porto.hackathon.FeignConfig
+import etify.porto.hackathon.config.FeignConfiguration
 import etify.porto.hackathon.monerium.data.*
-import feign.Feign
-import feign.Logger
-import feign.slf4j.Slf4jLogger
 import org.springframework.cloud.openfeign.FeignClient
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestHeader
+import org.springframework.web.bind.annotation.*
 
 @FeignClient(
     value = "moneriumClient",
     url = "https://sandbox.monerium.dev/api",
-    configuration = [FeignConfig::class]
+    configuration = [FeignConfiguration::class]
 )
 interface MoneriumClient {
     @PostMapping("emoney/profiles/{profileId}/addresses")
@@ -32,7 +22,7 @@ interface MoneriumClient {
     fun getAccounts(
         @RequestHeader("Authorization") authorizationHeader: String,
         @PathVariable profileId: String,
-    ): List<MoneriumAccount>
+    ): List<MoneriumAccountResponse>
 
     @PatchMapping("emoney/accounts/{accountId}")
     fun patchAccountData(
@@ -47,19 +37,6 @@ interface MoneriumClient {
         @PathVariable treasureId: String,
         @RequestBody body: PatchTreasuryData
     )
-}
-
-@Configuration
-class ClientConfiguration(
-) {
-
-    @Bean
-    fun moneriumClient(): Feign.Builder = Feign.builder()
-        .client(feign.okhttp.OkHttpClient())
-        .logger(Slf4jLogger())
-        .logLevel(Logger.Level.FULL)
-
-//        .build()
 }
 
 

@@ -1,15 +1,19 @@
 package etify.porto.hackathon.monerium
 
 import etify.porto.hackathon.monerium.data.AddAccountAddressData
+import etify.porto.hackathon.monerium.data.MoneriumAccount
 import etify.porto.hackathon.monerium.data.PatchAccountData
 import etify.porto.hackathon.monerium.data.PatchTreasuryData
-import etify.porto.hackathon.web3.Web3
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import org.web3j.utils.Numeric
+import java.util.*
 
 interface MoneriumService {
-    fun createAccount()
-
+    fun createAccount(
+        accountAddress: String,
+        signedBytes: ByteArray
+    ): MoneriumAccount
 }
 
 @Service
@@ -18,45 +22,45 @@ class MoneriumServiceImpl(
     @Value("\${monerium.profile-id}") private val profileId: String,
     private val client: MoneriumClient
 ) : MoneriumService {
-    companion object {
-        private val CREATE_ACCOUNT_MESSAGE = "I hereby declare that I am the address owner.".encodeToByteArray()
-    }
-
-    override fun createAccount() {
+    override fun createAccount(
+        accountAddress: String,
+        signedBytes: ByteArray
+    ): MoneriumAccount {
         val header = buildAuthorizationHeader()
-        val privateKey = Web3.createPrivateKey()
-
-//        println(privateKey)
-//        println(message)
 
         val body = AddAccountAddressData(
-            address = Web3.getAddress(privateKey),
-            signature = Web3.signMessage(privateKey, CREATE_ACCOUNT_MESSAGE)
+            address = accountAddress,
+            signature = Numeric.toHexString(signedBytes)
         )
 
         client.addAccountAddress(header, profileId, body)
-
         val account = client.getAccounts(header, profileId)
-            .filter { it.address == Web3.getAddress(privateKey) }
+            .filter { it.address == accountAddress }
             .filter { it.currency == "eur" }
-            .filter { it.chain == "polygon" }
-            .filter { it.network == "mumbai" }
+            .filter { it.chain == "ethereum" }
+            .filter { it.network == "goerli" }
             .firstOrNull() ?: throw IllegalStateException("No account found.")
 
-        val patch2 = client.patchAccountData(
+        val accountData = client.patchAccountData(
             authorizationHeader = header,
             accountId = account.id,
             body = PatchAccountData("3cd75adc-c1dd-11ed-a042-2a5f7fc2c676")
         )
 
-        val patch3 = client.patchTreasuryData(
+        client.patchTreasuryData(
             authorizationHeader = header,
             treasureId = "3cd75adc-c1dd-11ed-a042-2a5f7fc2c676",
-            body = PatchTreasuryData(patch2.id)
+            body = PatchTreasuryData(accountData.id)
+        )
+
+        return MoneriumAccount(
+            account.id,
+            account.address,
+            // Monerium API doesn't allow for multiple IBAN allows for only two, have to ask for this functionality
+            "IS13 2635 6907 1360 2643 7306 84"
         )
     }
 
-
     private fun buildAuthorizationHeader() = "Basic $authorization"
-
 }
+

@@ -7,3 +7,5 @@ spring:
 monerium:
   profile-id: "0c66e052-c1dd-11ed-a042-2a5f7fc2c676"
   authorization: "${MONERIUM_AUTHORIZATION}"
+dfns:
+  authorization: "${DFNS_AUTHORIZATION}"
