@@ -1,4 +1,4 @@
-package etify.porto.hackathon
+package etify.porto.hackathon.account
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
