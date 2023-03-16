@@ -24,13 +24,13 @@ class ProjectServiceImpl(val projectRepository: ProjectRepository) : ProjectServ
     }
 
     override fun postProjects(command: CreateProjectCommand): ProjectDto {
-        val newProject = ProjectDto(UUID.randomUUID(), command.name, command.status, command.websiteURL, command.twitterURL, command.telegramURL, command.mediumURL, command.tokenContractAddress)
+        val newProject = ProjectDto(UUID.randomUUID(), command.name, command.logo, command.status, command.websiteURL, command.twitterURL, command.telegramURL, command.mediumURL, command.tokenContractAddress)
         projectRepository.save(newProject.toDomain())
         return newProject
     }
 
     override fun putProjects(projectId: UUID, command: CreateProjectCommand): ProjectDto {
-        val newProject = ProjectDto(UUID.randomUUID(), command.name, command.status, command.websiteURL, command.twitterURL, command.telegramURL, command.mediumURL, command.tokenContractAddress)
+        val newProject = ProjectDto(UUID.randomUUID(), command.name, command.logo, command.status, command.websiteURL, command.twitterURL, command.telegramURL, command.mediumURL, command.tokenContractAddress)
         projectRepository.save(newProject.toDomain())
         return newProject
     }
@@ -39,6 +39,7 @@ class ProjectServiceImpl(val projectRepository: ProjectRepository) : ProjectServ
         return ProjectDto(
                 id = id,
                 name = name,
+                logo = logo,
                 status = status,
                 websiteURL = websiteURL,
                 twitterURL = twitterURL,
@@ -52,6 +53,7 @@ class ProjectServiceImpl(val projectRepository: ProjectRepository) : ProjectServ
         return Project(
                 id = id,
                 name = name,
+                logo = logo,
                 status = status,
                 websiteURL = websiteURL,
                 twitterURL = twitterURL,

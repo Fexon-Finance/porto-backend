@@ -8,6 +8,7 @@ import java.util.*
 data class ProjectDto(
         val id: UUID,
         val name: String,
+        val logo: String,
         val status: ProjectStatus,
         val websiteURL: String,
         val twitterURL: String,
@@ -19,6 +20,7 @@ data class ProjectDto(
 data class CreateProjectCommand(
         val name: String,
         val status: ProjectStatus,
+        val logo: String,
         val websiteURL: String,
         val twitterURL: String,
         val telegramURL: String,
@@ -35,6 +37,9 @@ data class Project(
 
         @Column(name = "name")
         val name: String,
+
+        @Column(name = "logo")
+        val logo: String,
 
         @Column(name = "status")
         val status: ProjectStatus,
