@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  db:
+    container_name: "porto-db"
+    build:
+      context: db
+      dockerfile: db.dockerfile
+    environment:
+      POSTGRES_PASSWORD: "root"
+    ports:
+      - "5432:5432"
