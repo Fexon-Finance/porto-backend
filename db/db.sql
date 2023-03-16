@@ -1,5 +1,5 @@
 CREATE DATABASE porto;
-CREATE USER porto WITH PASSWORD 'porto';
+CREATE USER spring WITH PASSWORD 'porto';
 GRANT ALL PRIVILEGES ON DATABASE porto to spring;
 \connect porto
 CREATE SCHEMA porto;

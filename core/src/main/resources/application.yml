@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    # Hardcoded password, don't do it in production :D
+    url: "jdbc:postgresql://porto-db:5432/porto"
+    username: "spring"
+    password: "porto"
+
