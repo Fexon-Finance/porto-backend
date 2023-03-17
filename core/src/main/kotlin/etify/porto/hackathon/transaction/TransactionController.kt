@@ -14,5 +14,6 @@ class TransactionController(private val service: TransactionService) {
     fun getTransaction(@PathVariable userId: UUID): Collection<TransactionDto> = service.getTransactions(userId)
 
     @PostMapping("/api/wallet/{userId}/transactions")
-    fun initTransaction(@RequestBody command: CreateTransactionCommand, @PathVariable userId: UUID): TransactionDto = service.initTransaction(command, userId)
+    fun initTransaction(@RequestBody command: CreateTransactionCommand, @PathVariable userId: UUID): TransactionDto =
+        service.initTransaction(command, userId)
 }

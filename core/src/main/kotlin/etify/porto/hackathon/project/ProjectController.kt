@@ -16,5 +16,6 @@ class ProjectController(private val service: ProjectService) {
     fun postProjects(@RequestBody command: CreateProjectCommand): ProjectDto = service.postProjects(command)
 
     @PutMapping("/api/projects/{projectId}")
-    fun postProjects(@PathVariable projectId: UUID, @RequestBody command: CreateProjectCommand): ProjectDto = service.putProjects(projectId, command)
+    fun postProjects(@PathVariable projectId: UUID, @RequestBody command: CreateProjectCommand): ProjectDto =
+        service.putProjects(projectId, command)
 }
