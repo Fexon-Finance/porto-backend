@@ -42,4 +42,11 @@ interface DfnsClient {
         @PathVariable publicKeyId: String,
         @PathVariable signatureId: String
     ): SignMessageResponse
+
+    @PostMapping("/public-keys/{publicKeyId}/walletconnect-session")
+    fun walletConnect(
+        @RequestHeader("Authorization") authorizationHeader: String,
+        @PathVariable publicKeyId: String,
+        @RequestBody body: WalletConnectData
+    )
 }

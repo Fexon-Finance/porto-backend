@@ -1,10 +1,9 @@
 package etify.porto.hackathon.dfns
 
-import etify.porto.hackathon.dfns.data.CreateAssetAccountData
-import etify.porto.hackathon.dfns.data.AssetAccount
-import etify.porto.hackathon.dfns.data.SignMessageData
-import etify.porto.hackathon.dfns.data.SignMessageResponse
+import etify.porto.hackathon.account.Account
+import etify.porto.hackathon.dfns.data.*
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.web3j.crypto.Sign
 import org.web3j.utils.Numeric
@@ -14,6 +13,7 @@ interface DfnsService {
     fun createAssetAccount(): AssetAccount
     fun getAssetAccount(id: String): AssetAccount
     fun sign(publicKeyId: String, messageBytes: ByteArray): ByteArray
+    fun walletConnect(walletConnect: WalletConnectData)
 }
 
 @Service
@@ -59,6 +59,18 @@ class DfnsServiceImpl(
         }
 
         return client.getSignMessage(header, publicKeyId, response.id).toByteArray()
+    }
+
+    override fun walletConnect(walletConnect: WalletConnectData) {
+        val account = SecurityContextHolder.getContext().authentication.principal as? Account
+            ?: throw IllegalStateException("Account doesn't exists.")
+        val header = buildAuthorizationHeader()
+
+        client.walletConnect(
+            header,
+            account.publicKey,
+            walletConnect
+        )
     }
 
     private fun SignMessageResponse.toByteArray(): ByteArray {

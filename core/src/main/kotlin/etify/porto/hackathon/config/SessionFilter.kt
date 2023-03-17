@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.GenericFilterBean
+import java.util.UUID
 
 @Component
 class SessionFilter(
@@ -20,8 +21,8 @@ class SessionFilter(
         try {
             if (request is HttpServletRequest) {
                 val token = request.getHeader("Authorization") ?: return
-                val session = sessionRepository.findByToken(token) ?: return
-                val account = accountRepository.findById(session.id).orElse(null)
+                val session = sessionRepository.findByToken(UUID.fromString(token)) ?: return
+                val account = accountRepository.findById(session.account).orElse(null)
                 SecurityContextHolder.getContext().authentication =
                     UsernamePasswordAuthenticationToken(account, null, listOf())
             }
