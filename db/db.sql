@@ -57,7 +57,6 @@ CREATE TABLE porto.transactions
     symbol       VARCHAR,
     logo         VARCHAR,
     project_name VARCHAR
-)
 );
 
 -- Privileges
