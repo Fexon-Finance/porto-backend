@@ -24,15 +24,31 @@ class ProjectServiceImpl(val projectRepository: ProjectRepository) : ProjectServ
     }
 
     override fun postProjects(command: CreateProjectCommand): ProjectDto {
-        val newProject = ProjectDto(UUID.randomUUID(), command.name, command.logo, command.status, command.websiteURL, command.twitterURL, command.telegramURL, command.mediumURL, command.tokenContractAddress)
-        projectRepository.save(newProject.toDomain())
-        return newProject
+        val newProject = Project(
+                UUID.randomUUID(),
+                command.name,
+                command.logo,
+                command.status,
+                command.websiteURL,
+                command.twitterURL,
+                command.telegramURL,
+                command.mediumURL,
+                command.tokenContractAddress,
+        )
+        newProject.tokens = command.tokenList.map { it.toDomain(newProject)}.toMutableList()
+        projectRepository.save(newProject)
+        return newProject.toDto()
     }
 
+    private fun CreateTokenCommand.toDomain(project: Project ): Token {
+        return Token(UUID.randomUUID(), name, tokenAddress, symbol, chain, project)
+    }
     override fun putProjects(projectId: UUID, command: CreateProjectCommand): ProjectDto {
-        val newProject = ProjectDto(UUID.randomUUID(), command.name, command.logo, command.status, command.websiteURL, command.twitterURL, command.telegramURL, command.mediumURL, command.tokenContractAddress)
-        projectRepository.save(newProject.toDomain())
-        return newProject
+        val newProject = Project(projectId, command.name, command.logo, command.status, command.websiteURL, command.twitterURL, command.telegramURL, command.mediumURL, command.tokenContractAddress)
+        newProject.tokens = command.tokenList.map { it.toDomain(newProject)}.toMutableList()
+        projectRepository.save(newProject)
+        return newProject.toDto()
+
     }
 
     private fun Project.toDto(): ProjectDto {
@@ -45,12 +61,13 @@ class ProjectServiceImpl(val projectRepository: ProjectRepository) : ProjectServ
                 twitterURL = twitterURL,
                 telegramURL = telegramURL,
                 mediumURL = mediumURL,
-                tokenContractAddress = tokenContractAddress
+                tokenContractAddress = tokenContractAddress,
+                tokenList = tokens.map { it.toDto() }
         )
     }
 
     private fun ProjectDto.toDomain(): Project {
-        return Project(
+        val project = Project(
                 id = id,
                 name = name,
                 logo = logo,
@@ -60,6 +77,29 @@ class ProjectServiceImpl(val projectRepository: ProjectRepository) : ProjectServ
                 telegramURL = telegramURL,
                 mediumURL = mediumURL,
                 tokenContractAddress = tokenContractAddress
+        )
+        project.tokens = tokenList.map { it.toDomain(project) }.toMutableList()
+        return project
+    }
+
+    private fun Token.toDto(): TokenDto {
+        return TokenDto(
+                id = id,
+                name = name,
+                tokenAddress = tokenAddress,
+                symbol = symbol,
+                chain = chain
+        )
+    }
+
+    private fun TokenDto.toDomain(project: Project): Token {
+        return Token(
+                id = UUID.randomUUID(),
+                name = name,
+                tokenAddress = tokenAddress,
+                symbol = symbol,
+                chain = chain,
+                project = project
         )
     }
 }

@@ -31,6 +31,16 @@ CREATE TABLE porto.projects
     token_contract_address VARCHAR
 );
 
+CREATE TABLE porto.tokens
+(
+    id                     UUID PRIMARY KEY,
+    project_id             UUID REFERENCES porto.projects(id),
+    name                   VARCHAR,
+    token_address          VARCHAR,
+    symbol                 VARCHAR,
+    chain                  VARCHAR
+);
+
 -- Privileges
 GRANT ALL PRIVILEGES ON SCHEMA porto TO spring;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA porto TO spring;
