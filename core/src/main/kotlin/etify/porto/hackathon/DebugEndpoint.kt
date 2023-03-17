@@ -11,7 +11,7 @@ class DebugEndpoint(
 
     @GetMapping("createMoneriumAccount")
     fun createMoneriumAccount() {
-//        moneriumService.createAccount()
+        moneriumService.createAccount()
     }
 
 }
