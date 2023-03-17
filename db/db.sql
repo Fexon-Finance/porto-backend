@@ -53,7 +53,11 @@ CREATE TABLE porto.transactions
     date         TIMESTAMPTZ,
     token_amount DOUBLE PRECISION,
     token_id     UUID,
-    account_id   UUID
+    account_id   UUID,
+    symbol       VARCHAR,
+    logo         VARCHAR,
+    project_name VARCHAR
+)
 );
 
 -- Privileges

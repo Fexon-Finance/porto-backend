@@ -13,14 +13,21 @@ data class TransactionDto(
         val date: OffsetDateTime,
         val tokenAmount: Double,
         val tokenId: UUID,
-        val accountId: UUID
+        val accountId: UUID,
+        val symbol: String,
+        val logo: String,
+        val projectName: String
 )
 
 data class CreateTransactionCommand(
         val price: Double,
         val date: OffsetDateTime,
         val tokenAmount: Double,
-        val tokenId: UUID
+        val tokenId: UUID,
+        val accountId: UUID,
+        val symbol: String,
+        val logo: String,
+        val projectName: String
 )
 
 @Entity
@@ -43,5 +50,14 @@ data class Transaction(
         val tokenId: UUID,
 
         @Column(name = "account_id")
-        val accountId: UUID
+        val accountId: UUID,
+
+        @Column(name = "symbol")
+        val symbol: String,
+
+        @Column(name = "logo")
+        val logo: String,
+
+        @Column(name = "project_name")
+        val projectName: String
 )
