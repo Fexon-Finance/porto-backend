@@ -85,7 +85,7 @@ data class Project(
     @Column(name = "token_contract_address")
     val tokenContractAddress: String,
 
-    @OneToMany(mappedBy = "project", cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
     var tokens: MutableList<Token> = mutableListOf()
 )
 
