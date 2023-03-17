@@ -29,16 +29,16 @@ class ProjectServiceImpl(
 
     override fun postProjects(command: CreateProjectCommand): ProjectDto {
         val newProject = Project(
-            UUID.randomUUID(),
-            command.name,
-            command.logo,
-            command.description,
-            command.status,
-            command.websiteURL,
-            command.twitterURL,
-            command.telegramURL,
-            command.mediumURL,
-            command.tokenContractAddress,
+            id = UUID.randomUUID(),
+            name = command.name,
+            logo = command.logo,
+            description = command.description,
+            status = command.status,
+            websiteURL = command.websiteURL,
+            twitterURL = command.twitterURL,
+            telegramURL = command.telegramURL,
+            mediumURL = command.mediumURL,
+            tokenContractAddress = command.tokenContractAddress,
         )
         newProject.tokens = command.tokenList.map { it.toDomain(newProject) }.toMutableList()
         mantleClient.createProject(newProject.id.toString())
@@ -47,21 +47,21 @@ class ProjectServiceImpl(
     }
 
     private fun CreateTokenCommand.toDomain(project: Project): Token {
-        return Token(UUID.randomUUID(), name, tokenAddress, symbol, chain, project)
+        return Token(UUID.randomUUID(), name, tokenAddress, symbol, chain, project, logo)
     }
 
     override fun putProjects(projectId: UUID, command: CreateProjectCommand): ProjectDto {
         val newProject = Project(
-            projectId,
-            command.name,
-            command.logo,
-            command.description,
-            command.status,
-            command.websiteURL,
-            command.twitterURL,
-            command.telegramURL,
-            command.mediumURL,
-            command.tokenContractAddress
+            id = projectId,
+            name = command.name,
+            logo = command.logo,
+            description = command.description,
+            status = command.status,
+            websiteURL = command.websiteURL,
+            twitterURL = command.twitterURL,
+            telegramURL = command.telegramURL,
+            mediumURL = command.mediumURL,
+            tokenContractAddress = command.tokenContractAddress
         )
         newProject.tokens = command.tokenList.map { it.toDomain(newProject) }.toMutableList()
         projectRepository.save(newProject)
@@ -108,7 +108,8 @@ class ProjectServiceImpl(
             name = name,
             tokenAddress = tokenAddress,
             symbol = symbol,
-            chain = chain
+            chain = chain,
+            logo = logo
         )
     }
 
@@ -119,7 +120,8 @@ class ProjectServiceImpl(
             tokenAddress = tokenAddress,
             symbol = symbol,
             chain = chain,
-            project = project
+            project = project,
+            logo = logo
         )
     }
 }
