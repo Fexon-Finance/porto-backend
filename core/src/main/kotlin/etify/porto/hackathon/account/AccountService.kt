@@ -55,14 +55,14 @@ class AccountServiceImpl(
     override fun login(command: LoginCommand): Session {
         val account = accountRepository.findByEmailIgnoreCase(command.email)
             ?: throw IllegalStateException("Account not found.")
-        val passwordMatches = passwordEncoder.matches(account.password, command.password)
+        val passwordMatches = passwordEncoder.matches(command.password, account.password)
         if (passwordMatches.not()) {
             throw IllegalStateException("Password doesn't match.")
         }
         val session = Session(
             id = UUID.randomUUID(),
             account = account.id,
-            token = UUID.randomUUID().toString(),
+            token = UUID.randomUUID(),
             expiry = OffsetDateTime.now().plusDays(1)
         )
         return sessionRepository.save(session)

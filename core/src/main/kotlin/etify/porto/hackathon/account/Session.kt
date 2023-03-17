@@ -14,11 +14,11 @@ data class Session(
     @Column(name = "id")
     val id: UUID,
 
-    @Column(name = "account")
+    @Column(name = "account_id")
     val account: UUID,
 
     @Column(name = "token")
-    val token: String,
+    val token: UUID,
 
     @Column(name = "expiry")
     val expiry: OffsetDateTime

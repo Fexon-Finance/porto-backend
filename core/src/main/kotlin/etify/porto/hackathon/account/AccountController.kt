@@ -12,4 +12,9 @@ class AccountController(
     fun createAccount(@RequestBody command: CreateAccountCommand) {
         accountService.createAccount(command)
     }
+
+    @PostMapping("api/login")
+    fun login(@RequestBody command: LoginCommand): Session {
+        return accountService.login(command)
+    }
 }

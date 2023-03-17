@@ -17,17 +17,18 @@ class SessionFilter(
     private val accountRepository: AccountRepository
 ) : GenericFilterBean() {
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
-        if (request is HttpServletRequest) {
-            try {
+        try {
+            if (request is HttpServletRequest) {
                 val token = request.getHeader("Authorization") ?: return
                 val session = sessionRepository.findByToken(token) ?: return
                 val account = accountRepository.findById(session.id).orElse(null)
                 SecurityContextHolder.getContext().authentication =
                     UsernamePasswordAuthenticationToken(account, null, listOf())
-            } catch (ex: Exception) {
-                println("Exception during session filtering.")
             }
+        } catch (ex: Exception) {
+            println("Exception during session filtering.")
+        } finally {
+            chain.doFilter(request, response)
         }
-        chain.doFilter(request, response)
     }
 }
