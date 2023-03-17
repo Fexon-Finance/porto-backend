@@ -4,7 +4,6 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.time.OffsetDateTime
 import java.util.UUID
 
 @Entity
@@ -14,17 +13,8 @@ class Account(
     @Column(name = "id")
     val id: UUID,
 
-    @Column(name = "email")
-    val email: String,
-
-    @Column(name = "password")
-    val password: String,
-
-    @Column(name = "name")
-    val name: String,
-
-    @Column(name = "surname")
-    val surname: String,
+    @Column(name = "vault_id")
+    val vaultId: String,
 
     @Column(name = "iban")
     val iban: String,

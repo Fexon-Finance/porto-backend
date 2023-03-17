@@ -8,11 +8,7 @@ CREATE SCHEMA porto;
 CREATE TABLE porto.accounts
 (
     id             UUID PRIMARY KEY,
-    email          VARCHAR,
-    password       VARCHAR,
-    name           VARCHAR,
-    surname        VARCHAR,
-    birthday       TIMESTAMPTZ,
+    vault_id       VARCHAR UNIQUE,
     iban           VARCHAR,
     public_key     VARCHAR,
     wallet_address VARCHAR

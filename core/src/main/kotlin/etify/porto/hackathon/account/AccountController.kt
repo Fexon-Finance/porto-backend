@@ -8,11 +8,6 @@ import org.springframework.web.bind.annotation.RestController
 class AccountController(
     private val accountService: AccountService
 ) {
-    @PostMapping("api/accounts")
-    fun createAccount(@RequestBody command: CreateAccountCommand) {
-        accountService.createAccount(command)
-    }
-
     @PostMapping("api/login")
     fun login(@RequestBody command: LoginCommand): Session {
         return accountService.login(command)
