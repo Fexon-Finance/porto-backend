@@ -46,11 +46,6 @@ class MantleClientImpl(
         return Credentials.create(privateKey)
     }
 
-    @PostConstruct
-    private fun init() {
-        createProject("Test")
-    }
-
     override fun createProject(projectId: String) {
         val function = Function(
             "createProject",

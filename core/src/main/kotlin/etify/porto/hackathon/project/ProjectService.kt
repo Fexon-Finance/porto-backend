@@ -1,5 +1,6 @@
 package etify.porto.hackathon.project
 
+import etify.porto.hackathon.web3.MantleClient
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.*
@@ -12,7 +13,10 @@ interface ProjectService {
 }
 
 @Service
-class ProjectServiceImpl(val projectRepository: ProjectRepository) : ProjectService {
+class ProjectServiceImpl(
+    private val projectRepository: ProjectRepository,
+    private val mantleClient: MantleClient
+) : ProjectService {
 
     override fun getProjects(): List<ProjectDto> {
         return projectRepository.findAll().map { it.toDto() }
@@ -37,6 +41,7 @@ class ProjectServiceImpl(val projectRepository: ProjectRepository) : ProjectServ
             command.tokenContractAddress,
         )
         newProject.tokens = command.tokenList.map { it.toDomain(newProject) }.toMutableList()
+        mantleClient.createProject(newProject.id.toString())
         projectRepository.save(newProject)
         return newProject.toDto()
     }
