@@ -1,0 +1,33 @@
+package etify.porto.hackathon.config
+
+import etify.porto.hackathon.account.AccountRepository
+import etify.porto.hackathon.account.SessionRepository
+import jakarta.servlet.FilterChain
+import jakarta.servlet.ServletRequest
+import jakarta.servlet.ServletResponse
+import jakarta.servlet.http.HttpServletRequest
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.stereotype.Component
+import org.springframework.web.filter.GenericFilterBean
+
+@Component
+class SessionFilter(
+    private val sessionRepository: SessionRepository,
+    private val accountRepository: AccountRepository
+) : GenericFilterBean() {
+    override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
+        if (request is HttpServletRequest) {
+            try {
+                val token = request.getHeader("Authorization") ?: return
+                val session = sessionRepository.findByToken(token) ?: return
+                val account = accountRepository.findById(session.id).orElse(null)
+                SecurityContextHolder.getContext().authentication =
+                    UsernamePasswordAuthenticationToken(account, null, listOf())
+            } catch (ex: Exception) {
+                println("Exception during session filtering.")
+            }
+        }
+        chain.doFilter(request, response)
+    }
+}

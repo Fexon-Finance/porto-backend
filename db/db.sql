@@ -18,6 +18,14 @@ CREATE TABLE porto.accounts
     wallet_address VARCHAR
 );
 
+CREATE TABLE porto.sessions
+(
+    id         UUID PRIMARY KEY,
+    account_id UUID,
+    token      UUID,
+    expiry     TIMESTAMPTZ
+);
+
 CREATE TABLE porto.projects
 (
     id                     UUID PRIMARY KEY,
@@ -33,12 +41,12 @@ CREATE TABLE porto.projects
 
 CREATE TABLE porto.tokens
 (
-    id                     UUID PRIMARY KEY,
-    project_id             UUID REFERENCES porto.projects(id),
-    name                   VARCHAR,
-    token_address          VARCHAR,
-    symbol                 VARCHAR,
-    chain                  VARCHAR
+    id            UUID PRIMARY KEY,
+    project_id    UUID REFERENCES porto.projects (id),
+    name          VARCHAR,
+    token_address VARCHAR,
+    symbol        VARCHAR,
+    chain         VARCHAR
 );
 
 -- Privileges
