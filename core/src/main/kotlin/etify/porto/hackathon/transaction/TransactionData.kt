@@ -23,8 +23,7 @@ data class TransactionDto(
 data class CreateTransactionCommand(
     val tokenAmount: Double,
     val tokenId: UUID,
-    val accountId: UUID,
-    val projectId: UUID
+//    val projectId: UUID
 )
 
 data class TokenBalanceDto(

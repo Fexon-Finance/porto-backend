@@ -63,7 +63,7 @@ class DfnsServiceImpl(
 
     override fun walletConnect(walletConnect: WalletConnectData) {
         val account = SecurityContextHolder.getContext().authentication.principal as? Account
-            ?: throw IllegalStateException("Account doesn't exists.")
+            ?: throw IllegalStateException("Account doesn't exists or session token is not set.")
         val header = buildAuthorizationHeader()
 
         client.walletConnect(
