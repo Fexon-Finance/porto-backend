@@ -12,6 +12,7 @@ services:
       - RPC_URL
       - DFNS_AUTHORIZATION
       - MONERIUM_AUTHORIZATION
+      - MANTLE_PRIVATE_KEY
     ports:
       - "8080:8080"
   db:
