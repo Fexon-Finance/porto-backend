@@ -7,7 +7,7 @@ import java.util.*
 class ProjectController(private val service: ProjectService) {
 
     @GetMapping("/api/projects")
-    fun getProjects(): Collection<ProjectDto> = service.getProjects()
+    fun getProjects(): List<ProjectDto> = service.getProjects()
 
     @GetMapping("/api/projects/{projectId}")
     fun getProjects(@PathVariable projectId: UUID): ProjectDto = service.getProject(projectId)

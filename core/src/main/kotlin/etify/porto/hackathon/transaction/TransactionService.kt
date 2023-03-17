@@ -11,7 +11,7 @@ interface TransactionService {
 
     fun getTransactions(userId: UUID): List<TransactionDto>
     fun initTransaction(command: CreateTransactionCommand, userId: UUID): TransactionDto
-    fun getBalance(): List<TokenDto>
+    fun getBalance(userId: UUID): List<TokenBalanceDto>
 }
 
 @Service
@@ -42,8 +42,9 @@ class TransactionServiceImpl(
         return newTransaction
     }
 
-    override fun getBalance(): List<TokenDto> {
-        TODO("Not yet implemented")
+    override fun getBalance(userId: UUID): List<TokenBalanceDto> {
+        transactionRepository.findAll().filter { it.accountId == userId }.map { it.tokenId }.distinct()
+        TODO("list of uniq token ID, need to get token balance base on that")
     }
 
     private fun TransactionDto.toDomain(): Transaction {
