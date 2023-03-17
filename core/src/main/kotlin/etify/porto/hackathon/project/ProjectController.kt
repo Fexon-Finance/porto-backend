@@ -3,6 +3,7 @@ package etify.porto.hackathon.project
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
+@CrossOrigin("*")
 @RestController
 class ProjectController(private val service: ProjectService) {
 
