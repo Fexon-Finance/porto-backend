@@ -27,6 +27,7 @@ CREATE TABLE porto.projects
     id                     UUID PRIMARY KEY,
     name                   VARCHAR,
     logo                   VARCHAR,
+    description            VARCHAR,
     status                 VARCHAR,
     website_url            VARCHAR,
     twitter_url            VARCHAR,
