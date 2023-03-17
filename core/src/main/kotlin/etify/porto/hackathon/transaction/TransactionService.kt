@@ -1,7 +1,6 @@
 package etify.porto.hackathon.transaction
 
 import etify.porto.hackathon.project.ProjectRepository
-import etify.porto.hackathon.project.TokenDto
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.OffsetDateTime
@@ -11,7 +10,7 @@ interface TransactionService {
 
     fun getTransactions(userId: UUID): List<TransactionDto>
     fun initTransaction(command: CreateTransactionCommand, userId: UUID): TransactionDto
-    fun getBalance(): List<TokenDto>
+    fun getBalance(userId: UUID): List<TokenBalanceDto>
 }
 
 @Service
@@ -42,8 +41,15 @@ class TransactionServiceImpl(
         return newTransaction
     }
 
-    override fun getBalance(): List<TokenDto> {
-        TODO("Not yet implemented")
+    override fun getBalance(userId: UUID): List<TokenBalanceDto> {
+        val tokenList = projectRepository.findAll().map { it.tokens }.flatten()
+        val tokenAddressList = transactionRepository.findAll().filter { it.accountId == userId }
+            .map { it.tokenId }
+            .distinct()
+            .mapNotNull { tokenId -> tokenList.find { token -> token.id == tokenId } }
+            .map { it.tokenAddress }
+
+        TODO("Implement get token balance and parse to TokenBalanceDto")
     }
 
     private fun TransactionDto.toDomain(): Transaction {
