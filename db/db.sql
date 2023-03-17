@@ -22,12 +22,23 @@ CREATE TABLE porto.projects
 (
     id                     UUID PRIMARY KEY,
     name                   VARCHAR,
+    logo                   VARCHAR,
     status                 VARCHAR,
     website_url            VARCHAR,
     twitter_url            VARCHAR,
     telegram_url           VARCHAR,
     medium_url             VARCHAR,
     token_contract_address VARCHAR
+);
+
+CREATE TABLE porto.tokens
+(
+    id                     UUID PRIMARY KEY,
+    project_id             UUID REFERENCES porto.projects(id),
+    name                   VARCHAR,
+    token_address          VARCHAR,
+    symbol                 VARCHAR,
+    chain                  VARCHAR
 );
 
 -- Privileges
