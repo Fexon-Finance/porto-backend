@@ -45,6 +45,16 @@ CREATE TABLE porto.tokens
     chain         VARCHAR
 );
 
+CREATE TABLE porto.transactions
+(
+    id           UUID PRIMARY KEY,
+    price        DOUBLE PRECISION,
+    date         TIMESTAMPTZ,
+    token_amount DOUBLE PRECISION,
+    token_id     UUID,
+    account_id   UUID
+);
+
 -- Privileges
 GRANT ALL PRIVILEGES ON SCHEMA porto TO spring;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA porto TO spring;

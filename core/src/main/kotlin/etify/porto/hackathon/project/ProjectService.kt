@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 interface ProjectService {
-    fun getProjects(): Collection<ProjectDto>
+    fun getProjects(): List<ProjectDto>
     fun getProject(projectId: UUID): ProjectDto
     fun postProjects(command: CreateProjectCommand): ProjectDto
     fun putProjects(projectId: UUID, command: CreateProjectCommand): ProjectDto
@@ -14,7 +14,7 @@ interface ProjectService {
 @Service
 class ProjectServiceImpl(val projectRepository: ProjectRepository) : ProjectService {
 
-    override fun getProjects(): Collection<ProjectDto> {
+    override fun getProjects(): List<ProjectDto> {
         return projectRepository.findAll().map { it.toDto() }
     }
 
