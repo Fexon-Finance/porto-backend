@@ -1,7 +1,9 @@
 package etify.porto.hackathon.account
 
 import etify.porto.hackathon.dfns.DfnsService
+import etify.porto.hackathon.dfns.data.AssetAccount
 import etify.porto.hackathon.monerium.MoneriumService
+import etify.porto.hackathon.monerium.data.MoneriumAccount
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.OffsetDateTime
@@ -25,16 +27,30 @@ class AccountServiceImpl(
     }
 
     override fun createAccount(command: CreateAccountCommand): Account {
-        val assetAccount = dfnsService.createAssetAccount()
+//        Avoiding to create  accounts on custodian and monerium when integrating with frontend
+//        val assetAccount = dfnsService.createAssetAccount()
+//
+//        val signedMessage = dfnsService.sign(
+//            publicKeyId = assetAccount.publicKey ?: throw IllegalStateException("Public key has not been created."),
+//            messageBytes = MESSAGE
+//        )
+//
+//        val moneriumAccount = moneriumService.createAccount(
+//            accountAddress = assetAccount.address ?: throw IllegalStateException("Address has not been created."),
+//            signedBytes = signedMessage
+//        )
 
-        val signedMessage = dfnsService.sign(
-            publicKeyId = assetAccount.publicKey ?: throw IllegalStateException("Public key has not been created."),
-            messageBytes = MESSAGE
+        val assetAccount = AssetAccount(
+            id = "aa-londo-vermo-7cuuloobe59uaqsk",
+            status = "Enabled",
+            address = "0xE8E19c5382bd5B0D4dD7F77143CD32999B18bF14",
+            publicKey = "pk-april-arizo-2g5uqmhhsf8r1aa8"
         )
 
-        val moneriumAccount = moneriumService.createAccount(
-            accountAddress = assetAccount.address ?: throw IllegalStateException("Address has not been created."),
-            signedBytes = signedMessage
+        val moneriumAccount = MoneriumAccount(
+            id = "12345",
+            address = assetAccount.address!!,
+            iban = "IS13 2635 6907 1360 2643 7306 84"
         )
 
         val account = Account(
@@ -43,7 +59,6 @@ class AccountServiceImpl(
             name = command.name,
             surname = command.surname,
             password = passwordEncoder.encode(command.password),
-            birthday = command.birthday,
             iban = moneriumAccount.iban,
             publicKey = assetAccount.publicKey ?: throw IllegalStateException("Public key has not been created."),
             walletAddress = assetAccount.address ?: throw IllegalStateException("Address has not been created.")

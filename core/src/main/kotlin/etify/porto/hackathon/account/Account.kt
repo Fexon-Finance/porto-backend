@@ -26,9 +26,6 @@ class Account(
     @Column(name = "surname")
     val surname: String,
 
-    @Column(name = "birthday")
-    val birthday: OffsetDateTime,
-
     @Column(name = "iban")
     val iban: String,
 
