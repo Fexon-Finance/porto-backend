@@ -1,8 +1,12 @@
 package etify.porto.hackathon.transaction
 
+import etify.porto.hackathon.account.AccountRepository
 import etify.porto.hackathon.project.ProjectRepository
+import etify.porto.hackathon.project.Token
+import etify.porto.hackathon.web3.Web3
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.web3j.utils.Convert
 import java.time.OffsetDateTime
 import java.util.UUID
 
@@ -16,7 +20,9 @@ interface TransactionService {
 @Service
 class TransactionServiceImpl(
     val transactionRepository: TransactionRepository,
-    val projectRepository: ProjectRepository
+    val accountRepository: AccountRepository,
+    val projectRepository: ProjectRepository,
+    val web3: Web3
 ) : TransactionService {
     override fun getTransactions(userId: UUID): List<TransactionDto> {
         return transactionRepository.findAll().filter { it.accountId == userId }.map { it.toDto() }
@@ -42,14 +48,26 @@ class TransactionServiceImpl(
     }
 
     override fun getBalance(userId: UUID): List<TokenBalanceDto> {
+        val account = accountRepository.findById(userId)
+            .orElseThrow { throw IllegalStateException("Account doesn't exists") }
         val tokenList = projectRepository.findAll().map { it.tokens }.flatten()
-        val tokenAddressList = transactionRepository.findAll().filter { it.accountId == userId }
+        return transactionRepository.findAll().filter { it.accountId == userId }
             .map { it.tokenId }
             .distinct()
             .mapNotNull { tokenId -> tokenList.find { token -> token.id == tokenId } }
-            .map { it.tokenAddress }
+            .map { it.toBalanceDto(account.walletAddress) }
+    }
 
-        TODO("Implement get token balance and parse to TokenBalanceDto")
+    private fun Token.toBalanceDto(wallet: String): TokenBalanceDto {
+        val weiBalance = web3.getBalance(tokenAddress, wallet)
+        return TokenBalanceDto(
+            id = id,
+            name = name,
+            symbol = symbol,
+            tokenAmount = Convert.fromWei(weiBalance.toString(), Convert.Unit.ETHER).toDouble(),
+            price = 0.0,
+            logo = logo
+        )
     }
 
     private fun TransactionDto.toDomain(): Transaction {

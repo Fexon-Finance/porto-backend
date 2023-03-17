@@ -21,6 +21,7 @@ import org.web3j.protocol.http.HttpService
 import org.web3j.tx.TransactionManager
 import org.web3j.tx.response.PollingTransactionReceiptProcessor
 import org.web3j.utils.Numeric
+import java.lang.Exception
 import java.math.BigInteger
 import java.util.*
 
@@ -77,6 +78,10 @@ class Web3Impl(
         val transaction = Transaction.createEthCallTransaction(wallet.address, contractAddress, encoded)
         val result = client.ethCall(transaction, DefaultBlockParameterName.LATEST).send()
 
-        return FunctionReturnDecoder.decode(result.value, function.outputParameters).first().value as BigInteger
+        return try {
+            FunctionReturnDecoder.decode(result.value, function.outputParameters).first().value as BigInteger
+        } catch (ex: Exception) {
+            BigInteger.ZERO
+        }
     }
 }
