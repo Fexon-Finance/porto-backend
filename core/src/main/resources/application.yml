@@ -14,3 +14,6 @@ web3:
 mantle:
   rpc: "https://rpc.testnet.mantle.xyz/"
   private-key: "${MANTLE_PRIVATE_KEY}"
+server:
+  error:
+    include-message: always
