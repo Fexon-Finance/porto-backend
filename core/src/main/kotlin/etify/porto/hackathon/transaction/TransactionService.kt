@@ -13,7 +13,6 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 interface TransactionService {
-
     fun getTransactions(userId: UUID): List<TransactionDto>
     fun initTransaction(command: CreateTransactionCommand, userId: UUID): TransactionDto
     fun getBalance(userId: UUID): List<TokenBalanceDto>
@@ -43,16 +42,17 @@ class TransactionServiceImpl(
             ?.project
             ?: throw IllegalStateException("Project not found.")
         val token = project.tokens.firstOrNull { it.id == command.tokenId } ?: throw NoSuchElementException()
-        lifiService.swap(
-            token = token,
-            publicKey = account.publicKey,
-            address = account.walletAddress,
-            amount = Convert.toWei(command.tokenAmount.toString(), Convert.Unit.ETHER).toBigInteger().toString()
-        )
+
+        // Not going to work on testnet, there no refi coins there
+//        lifiService.swap(
+//            token = token,
+//            publicKey = account.publicKey,
+//            address = account.walletAddress,
+//            amount = Convert.toWei(command.tokenAmount.toString(), Convert.Unit.ETHER).toBigInteger().toString()
+//        )
 
         val newTransaction = TransactionDto(
             id = UUID.randomUUID(),
-            price = 12.2,//TODO(getPrice)
             date = OffsetDateTime.now(),
             tokenAmount = command.tokenAmount,
             tokenId = command.tokenId,
@@ -83,7 +83,6 @@ class TransactionServiceImpl(
             name = name,
             symbol = symbol,
             tokenAmount = Convert.fromWei(weiBalance.toString(), Convert.Unit.ETHER).toDouble(),
-            price = 0.0,
             logo = logo
         )
     }
@@ -91,7 +90,6 @@ class TransactionServiceImpl(
     private fun TransactionDto.toDomain(): Transaction {
         return Transaction(
             id = id,
-            price = price,
             date = date,
             tokenAmount = tokenAmount,
             tokenId = tokenId,
@@ -105,7 +103,6 @@ class TransactionServiceImpl(
     private fun Transaction.toDto(): TransactionDto {
         return TransactionDto(
             id = id,
-            price = price,
             date = date,
             tokenAmount = tokenAmount,
             tokenId = tokenId,

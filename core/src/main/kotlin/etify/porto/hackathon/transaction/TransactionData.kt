@@ -1,6 +1,5 @@
 package etify.porto.hackathon.transaction
 
-import etify.porto.hackathon.project.Chain
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -10,7 +9,6 @@ import java.util.*
 
 data class TransactionDto(
     val id: UUID,
-    val price: Double,
     val date: OffsetDateTime,
     val tokenAmount: Double,
     val tokenId: UUID,
@@ -22,8 +20,7 @@ data class TransactionDto(
 
 data class CreateTransactionCommand(
     val tokenAmount: Double,
-    val tokenId: UUID,
-//    val projectId: UUID
+    val tokenId: UUID
 )
 
 data class TokenBalanceDto(
@@ -31,7 +28,6 @@ data class TokenBalanceDto(
     val name: String,
     val symbol: String,
     val tokenAmount: Double,
-    val price: Double,
     val logo: String
 )
 
@@ -41,9 +37,6 @@ data class Transaction(
     @Id
     @Column(name = "id")
     val id: UUID,
-
-    @Column(name = "price")
-    val price: Double,
 
     @Column(name = "date")
     val date: OffsetDateTime,
