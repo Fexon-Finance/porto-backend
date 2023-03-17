@@ -28,7 +28,6 @@ class MantleClientImpl(
         private const val CONTRACT_ADDRESS = "0xe5431dfE8623622111424E0d42cAD8552E67F2D0"
     }
 
-
     private val client = initializeClient()
     private val wallet = initializeWallet()
     private val transactionManager = RawTransactionManager(client, wallet, 5001)
@@ -71,5 +70,4 @@ class MantleClientImpl(
 
         poller.waitForTransactionReceipt(transaction.transactionHash)
     }
-
 }
