@@ -11,3 +11,6 @@ dfns:
   authorization: "${DFNS_AUTHORIZATION}"
 web3:
   rpc: "${RPC_URL}"
+mantle:
+  rpc: "https://rpc.testnet.mantle.xyz/"
+  private-key: "${MANTLE_PRIVATE_KEY}"
