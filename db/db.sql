@@ -27,6 +27,7 @@ CREATE TABLE porto.projects
     id                     UUID PRIMARY KEY,
     name                   VARCHAR,
     logo                   VARCHAR,
+    description            VARCHAR,
     status                 VARCHAR,
     website_url            VARCHAR,
     twitter_url            VARCHAR,
@@ -43,6 +44,16 @@ CREATE TABLE porto.tokens
     token_address VARCHAR,
     symbol        VARCHAR,
     chain         VARCHAR
+);
+
+CREATE TABLE porto.transactions
+(
+    id           UUID PRIMARY KEY,
+    price        DOUBLE PRECISION,
+    date         TIMESTAMPTZ,
+    token_amount DOUBLE PRECISION,
+    token_id     UUID,
+    account_id   UUID
 );
 
 -- Privileges

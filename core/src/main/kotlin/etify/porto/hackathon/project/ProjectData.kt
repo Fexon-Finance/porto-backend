@@ -6,6 +6,7 @@ data class ProjectDto(
         val id: UUID,
         val name: String,
         val logo: String,
+        val description: String,
         val status: ProjectStatus,
         val websiteURL: String,
         val twitterURL: String,
@@ -19,6 +20,7 @@ data class CreateProjectCommand(
         val name: String,
         val status: ProjectStatus,
         val logo: String,
+        val description: String,
         val websiteURL: String,
         val twitterURL: String,
         val telegramURL: String,
@@ -57,6 +59,9 @@ data class Project(
 
         @Column(name = "logo")
         val logo: String,
+
+        @Column(name = "description")
+        val description: String,
 
         @Enumerated(EnumType.STRING)
         @Column(name = "status")
