@@ -18,7 +18,7 @@ class TransactionServiceImpl(val transactionRepository: TransactionRepository) :
 
     override fun initTransaction(command: CreateTransactionCommand, userId: UUID): TransactionDto {
         val newTransaction =
-            TransactionDto(UUID.randomUUID(), command.price, command.date, command.tokenAmount, command.tokenId, userId)
+            TransactionDto(UUID.randomUUID(), command.price, command.date, command.tokenAmount, command.tokenId, userId, command.symbol, command.logo, command.projectName)
         transactionRepository.save(newTransaction.toDomain())
         return newTransaction
     }
@@ -30,7 +30,10 @@ class TransactionServiceImpl(val transactionRepository: TransactionRepository) :
             date = date,
             tokenAmount = tokenAmount,
             tokenId = tokenId,
-            accountId = accountId
+            accountId = accountId,
+            symbol = symbol,
+            logo = logo,
+            projectName = projectName
         )
     }
 
@@ -41,7 +44,10 @@ class TransactionServiceImpl(val transactionRepository: TransactionRepository) :
             date = date,
             tokenAmount = tokenAmount,
             tokenId = tokenId,
-            accountId = accountId
+            accountId = accountId,
+            symbol = symbol,
+            logo = logo,
+            projectName = projectName
         )
     }
 }
