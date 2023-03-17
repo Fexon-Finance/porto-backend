@@ -46,8 +46,6 @@ class AccountServiceImpl(
             walletAddress = assetAccount.address ?: throw IllegalStateException("Address has not been created.")
         )
 
-        accountRepository.save(account)
-
-        return account
+        return accountRepository.save(account)
     }
 }

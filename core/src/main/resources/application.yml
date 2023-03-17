@@ -9,3 +9,5 @@ monerium:
   authorization: "${MONERIUM_AUTHORIZATION}"
 dfns:
   authorization: "${DFNS_AUTHORIZATION}"
+web3:
+  rpc: "${RPC_URL}"
