@@ -9,7 +9,7 @@ class AccountController(
     private val accountService: AccountService
 ) {
     @PostMapping("api/login")
-    fun login(@RequestBody command: LoginCommand): Session {
+    fun login(@RequestBody command: LoginCommand): SessionDto {
         return accountService.login(command)
     }
 }

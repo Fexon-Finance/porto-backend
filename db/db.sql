@@ -43,7 +43,8 @@ CREATE TABLE porto.tokens
     name          VARCHAR,
     token_address VARCHAR,
     symbol        VARCHAR,
-    chain         VARCHAR
+    chain         VARCHAR,
+    logo          VARCHAR
 );
 
 CREATE TABLE porto.transactions

@@ -10,7 +10,7 @@ import java.time.OffsetDateTime
 import java.util.*
 
 interface AccountService {
-    fun login(command: LoginCommand): Session
+    fun login(command: LoginCommand): SessionDto
 }
 
 @Service
@@ -61,7 +61,7 @@ class AccountServiceImpl(
         return accountRepository.save(account)
     }
 
-    override fun login(command: LoginCommand): Session {
+    override fun login(command: LoginCommand): SessionDto {
         val account = accountRepository.findByVaultId(command.vaultId).orElseGet { createAccount(command.vaultId) }
 
         val session = Session(
@@ -70,6 +70,22 @@ class AccountServiceImpl(
             token = UUID.randomUUID(),
             expiry = OffsetDateTime.now().plusDays(1)
         )
-        return sessionRepository.save(session)
+        sessionRepository.save(session)
+
+        return SessionDto(
+            id = session.id,
+            account = account.id,
+            token = session.token,
+            expiry = session.expiry,
+            iban = account.iban
+        )
     }
 }
+
+data class SessionDto(
+    val id: UUID,
+    val account: UUID,
+    val iban: String,
+    val token: UUID,
+    val expiry: OffsetDateTime
+)
