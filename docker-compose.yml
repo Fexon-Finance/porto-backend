@@ -1,6 +1,17 @@
 version: "3.9"
 
 services:
+  core:
+    depends_on:
+      - db
+    container_name: "porto-core"
+    build:
+      context: core
+      dockerfile: core.dockerfile
+    environment:
+      - RPC_URL
+      - DFNS_AUTHORIZATION
+      - MONERIUM_AUTHORIZATION
   db:
     container_name: "porto-db"
     build:
