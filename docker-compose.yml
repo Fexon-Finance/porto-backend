@@ -12,6 +12,8 @@ services:
       - RPC_URL
       - DFNS_AUTHORIZATION
       - MONERIUM_AUTHORIZATION
+    ports:
+      - "8080:8080"
   db:
     container_name: "porto-db"
     build:
