@@ -12,6 +12,7 @@ class CorsFilter : GenericFilterBean() {
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
         if (response is HttpServletResponse) {
             response.setHeader("Access-Control-Allow-Origin", "*")
+            response.setHeader("Access-Control-Allow-Methods", "*")
         }
         chain.doFilter(request, response)
     }
