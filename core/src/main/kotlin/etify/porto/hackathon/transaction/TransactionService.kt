@@ -51,7 +51,7 @@ class TransactionServiceImpl(
 //            amount = Convert.toWei(command.tokenAmount.toString(), Convert.Unit.ETHER).toBigInteger().toString()
 //        )
 
-        val newTransaction = TransactionDto(
+        val newTransaction = Transaction(
             id = UUID.randomUUID(),
             date = OffsetDateTime.now(),
             tokenAmount = command.tokenAmount,
@@ -62,8 +62,8 @@ class TransactionServiceImpl(
             projectName = project.name,
             tokenName = token.name
         )
-        transactionRepository.save(newTransaction.toDomain())
-        return newTransaction
+        transactionRepository.save(newTransaction)
+        return newTransaction.toDto()
     }
 
     override fun getBalance(userId: UUID): List<TokenBalanceDto> {
