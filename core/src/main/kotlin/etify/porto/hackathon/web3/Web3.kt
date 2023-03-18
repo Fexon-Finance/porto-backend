@@ -54,7 +54,7 @@ class Web3Impl(
             transactionRequest.chainId.toLong(),
             nonce,
             BigInteger(transactionRequest.gasLimit, 16),
-            transactionRequest.data,
+            transactionRequest.to,
             BigInteger(transactionRequest.value, 16),
             transactionRequest.data,
             BigInteger(transactionRequest.gasPrice, 16),
