@@ -26,29 +26,18 @@ class AccountServiceImpl(
     }
 
     private fun createAccount(vaultId: String): Account {
-//        Avoiding to create  accounts on custodian and monerium when integrating with frontend
-//        val assetAccount = dfnsService.createAssetAccount()
-//
-//        val signedMessage = dfnsService.sign(
-//            publicKeyId = assetAccount.publicKey ?: throw IllegalStateException("Public key has not been created."),
-//            messageBytes = MESSAGE
-//        )
-//
-//        val moneriumAccount = moneriumService.createAccount(
-//            accountAddress = assetAccount.address ?: throw IllegalStateException("Address has not been created."),
-//            signedBytes = signedMessage
-//        )
+        val assetAccount = dfnsService.createAssetAccount()
 
-        val assetAccount = AssetAccount(
-            id = "aa-londo-vermo-7cuuloobe59uaqsk",
-            status = "Enabled",
-            address = "0xE8E19c5382bd5B0D4dD7F77143CD32999B18bF14",
-            publicKey = "pk-april-arizo-2g5uqmhhsf8r1aa8"
+        val signedMessage = dfnsService.sign(
+            publicKeyId = assetAccount.publicKey ?: throw IllegalStateException("Public key has not been created."),
+            messageBytes = MESSAGE
         )
 
-        val moneriumAccount = MoneriumAccount(
-            id = "12345", address = assetAccount.address!!, iban = "IS13 2635 6907 1360 2643 7306 84"
+        val moneriumAccount = moneriumService.createAccount(
+            accountAddress = assetAccount.address ?: throw IllegalStateException("Address has not been created."),
+            signedBytes = signedMessage
         )
+
 
         val account = Account(
             id = UUID.randomUUID(),
