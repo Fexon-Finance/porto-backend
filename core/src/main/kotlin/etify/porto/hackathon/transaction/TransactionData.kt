@@ -15,7 +15,8 @@ data class TransactionDto(
     val accountId: UUID,
     val symbol: String,
     val logo: String,
-    val projectName: String
+    val projectName: String,
+    val tokenName: String
 )
 
 data class CreateTransactionCommand(
@@ -59,5 +60,8 @@ data class Transaction(
     val logo: String,
 
     @Column(name = "project_name")
-    val projectName: String
+    val projectName: String,
+
+    @Column(name = "token_name")
+    val tokenName: String
 )

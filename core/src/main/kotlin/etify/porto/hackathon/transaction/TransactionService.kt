@@ -59,7 +59,8 @@ class TransactionServiceImpl(
             accountId = userId,
             symbol = token.symbol,
             logo = token.logo,
-            projectName = project.name
+            projectName = project.name,
+            tokenName = token.name
         )
         transactionRepository.save(newTransaction.toDomain())
         return newTransaction
@@ -99,7 +100,8 @@ class TransactionServiceImpl(
             accountId = accountId,
             symbol = symbol,
             logo = logo,
-            projectName = projectName
+            projectName = projectName,
+            tokenName = tokenName
         )
     }
 
@@ -112,7 +114,8 @@ class TransactionServiceImpl(
             accountId = accountId,
             symbol = symbol,
             logo = logo,
-            projectName = projectName
+            projectName = projectName,
+            tokenName = tokenName
         )
     }
 }
