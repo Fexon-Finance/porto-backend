@@ -78,8 +78,11 @@ class TransactionServiceImpl(
 
     private fun Token.toBalanceDto(wallet: String): TokenBalanceDto {
         val weiBalance = web3.getBalance(tokenAddress, wallet)
+
         return TokenBalanceDto(
             id = id,
+            projectId = project.id,
+            projectName = project.name,
             name = name,
             symbol = symbol,
             tokenAmount = Convert.fromWei(weiBalance.toString(), Convert.Unit.ETHER).toDouble(),

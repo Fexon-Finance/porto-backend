@@ -25,6 +25,8 @@ data class CreateTransactionCommand(
 
 data class TokenBalanceDto(
     val id: UUID,
+    val projectId: UUID,
+    val projectName: String,
     val name: String,
     val symbol: String,
     val tokenAmount: Double,
